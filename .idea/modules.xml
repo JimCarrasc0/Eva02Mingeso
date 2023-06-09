@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Eva02Mingeso-.iml" filepath="$PROJECT_DIR$/.idea/Eva02Mingeso-.iml" />
+      <module fileurl="file://$PROJECT_DIR$/acopio-service/acopio-service.iml" filepath="$PROJECT_DIR$/acopio-service/acopio-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/leche-service/leche-service.iml" filepath="$PROJECT_DIR$/leche-service/leche-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pago-service/pago-service.iml" filepath="$PROJECT_DIR$/pago-service/pago-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proveedor-service/proveedor-service.iml" filepath="$PROJECT_DIR$/proveedor-service/proveedor-service.iml" />
     </modules>
   </component>
 </project>
