@@ -35,4 +35,10 @@ public class AcopioController {
         }
     }
 
+    @GetMapping("/{proveedorId}")
+    public ResponseEntity<List<AcopioEntity>> getByProveedorId(@PathVariable("proveedorId") String proveedorId){
+        List<AcopioEntity> acopio = acopioService.getPorProvId(proveedorId);
+        return ResponseEntity.ok(acopio);
+    }
+
 }

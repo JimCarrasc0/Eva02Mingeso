@@ -94,4 +94,8 @@ public class AcopioService {
             logg.error("Error",e);
         }
     }
+
+    public List<AcopioEntity> getPorProvId(String proveedorId){
+        return acopioRepository.findByProveedor(proveedorId);
+    }
 }

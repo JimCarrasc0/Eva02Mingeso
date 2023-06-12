@@ -35,4 +35,10 @@ public class LecheController {
         }
     }
 
+    @GetMapping("/{proveedorId}")
+    public ResponseEntity<List<LecheEntity>> getByProveedorId(@PathVariable("proveedorId") String proveedorId){
+        List<LecheEntity> leche = lecheService.obtenerPorProvId(proveedorId);
+        return ResponseEntity.ok(leche);
+    }
+
 }

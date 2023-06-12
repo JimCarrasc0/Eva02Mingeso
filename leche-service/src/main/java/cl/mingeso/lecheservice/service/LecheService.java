@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class LecheService {
@@ -80,5 +81,9 @@ public class LecheService {
         }catch (IOException e){
             logg.error("Error",e);
         }
+    }
+
+    public List<LecheEntity> obtenerPorProvId(String proveedorId){
+        return lecheRepository.findByProveedor(proveedorId);
     }
 }
