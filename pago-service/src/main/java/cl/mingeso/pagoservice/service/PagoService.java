@@ -72,5 +72,29 @@ public class PagoService {
 
     }
 
+    public List<Float> calculoLeche (String proveedorId){
+        List<LecheModel> leche = consultaLeche(proveedorId);
+        Float avgGrasa = 0.0f;
+        Float varGrasa = 0.0f;
+        Float avgSolido = 0.0f;
+        Float varSolido = 0.0f;
 
+        for(LecheModel elemento : leche){
+            avgGrasa += elemento.getGrasa();
+            avgSolido += elemento.getSolido();
+        }
+        avgGrasa = avgGrasa/ leche.size();
+        avgSolido = avgSolido / leche.size();
+
+        varGrasa = leche.get(0).getGrasa() - leche.get(leche.size()-1).getGrasa();
+        varSolido = leche.get(0).getSolido() - leche.get(leche.size()-1).getSolido();
+
+        List <Float> avgYvar = new ArrayList<>();
+        avgYvar.add(avgGrasa);
+        avgYvar.add(varGrasa);
+        avgYvar.add(avgSolido);
+        avgYvar.add(varSolido);
+
+        return avgYvar;
+    }
 }

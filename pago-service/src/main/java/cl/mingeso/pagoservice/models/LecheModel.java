@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LecheModel {
-    private Float grasas;
-    private Float solidos;
+    private Float grasa;
+    private Float solido;
 }
