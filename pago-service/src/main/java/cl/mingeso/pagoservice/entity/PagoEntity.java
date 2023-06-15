@@ -16,6 +16,7 @@ public class PagoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String proveedorId;
+    private String nombre;
     private Float kilos;
     private Float pagoLeche;
     private Float pagoGrasa;
