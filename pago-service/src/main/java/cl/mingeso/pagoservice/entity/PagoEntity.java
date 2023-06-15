@@ -14,9 +14,9 @@ public class PagoEntity {
     @Id
     @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
+    private Integer id;
     private String proveedorId;
-    private String nombreProveedor;
+    private String nombre;
     private Float kilos;
     private Float pagoLeche;
     private Float pagoGrasa;
@@ -28,9 +28,5 @@ public class PagoEntity {
     private Float pagoTotal;
     private Float retencion;
     private Float pagoFinal;
-    private Float totalKilos;
-    private Float varLeche;
-    private Float varGrasa;
-    private Float varSolido;
 
 }
