@@ -1,0 +1,10 @@
+insert into leche_entity (proveedor_id, grasa, solido) values ('35682', 19, 27);
+insert into leche_entity (proveedor_id, grasa, solido) values ('95620', 16, 44);
+insert into leche_entity (proveedor_id, grasa, solido) values ('36633', 44, 30);
+insert into leche_entity (proveedor_id, grasa, solido) values ('32204', 36, 33);
+insert into leche_entity (proveedor_id, grasa, solido) values ('18816', 11, 8);
+insert into leche_entity (proveedor_id, grasa, solido) values ('22744', 21, 43);
+insert into leche_entity (proveedor_id, grasa, solido) values ('16880', 33, 29);
+insert into leche_entity (proveedor_id, grasa, solido) values ('28039', 12, 20);
+insert into leche_entity (proveedor_id, grasa, solido) values ('55481', 13, 20);
+insert into leche_entity (proveedor_id, grasa, solido) values ('13795', 5, 5);
