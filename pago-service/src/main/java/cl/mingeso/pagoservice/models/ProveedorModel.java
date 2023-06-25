@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProveedorModel {
+
+    private String proveedorId;
     private String nombre;
     private String categoria;
     private String retencion;

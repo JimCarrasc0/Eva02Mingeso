@@ -3,18 +3,18 @@ spring:
     restart:
       aditional-paths: src/main/java
   application:
-    name: autorizacion-service
+    name: pago-service
   cloud:
     config:
       enabled: true
-      uri: http://localhost:8003
+      uri: http://localhost:8081
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/pago
+    url: jdbc:postgresql://localhost:5432/pago?autorReconnect=true&allowPublicKeyRetrieval=true&useSSL=false
     username: postgres
     password: admin
   jpa:
-  show-sql: true
-  hibernate:
-    dialect: org.hibernate.dialect.PostgreSQLDialect
-    ddl-auto: create-drop
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      ddl-auto: create

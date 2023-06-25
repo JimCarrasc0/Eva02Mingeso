@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/pago")
 public class PagoController {
@@ -19,5 +21,14 @@ public class PagoController {
     public ResponseEntity<PagoEntity> getPagoProveedor(@PathVariable("proveedorId") String proveedorId){
         PagoEntity pago= pagoService.calculoPago(proveedorId);
         return ResponseEntity.ok(pago);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<PagoEntity>> getPlanilla(){
+        pagoService.vaciarDB();
+        List<PagoEntity> planilla = pagoService.calculoPlanilla();
+        if(planilla.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(planilla);
     }
 }

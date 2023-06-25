@@ -5,13 +5,21 @@ import cl.mingeso.pagoservice.models.AcopioModel;
 import cl.mingeso.pagoservice.models.LecheModel;
 import cl.mingeso.pagoservice.models.ProveedorModel;
 import cl.mingeso.pagoservice.repository.PagoRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
+import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,39 +36,75 @@ public class PagoService {
     public List<PagoEntity> getPagos(){
         return (List<PagoEntity>) pagoRepository.findAll();
     }
+
+
     public ProveedorModel consultaProveedor(String proveedorId){
         ProveedorModel datosProveedor = restTemplate.getForObject("http://proveedor-service/proveedor/"+proveedorId,ProveedorModel.class);
         return datosProveedor;
     }
 
+    public List<String> listaProveedorId(){
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<List<ProveedorModel>> response = restTemplate.exchange("http://proveedor-service/proveedor", HttpMethod.GET, entity, new ParameterizedTypeReference<List<ProveedorModel>>() {});
+        List<ProveedorModel> proveedores = response.getBody();
+
+        List<String> listaId = new ArrayList<>();
+
+        for(ProveedorModel elemento : proveedores){
+            listaId.add(elemento.getProveedorId());
+        }
+
+        return listaId;
+    }
+
     public List<AcopioModel> consultaAcopio(String proveedorId){
-        List<AcopioModel> datosAcopio = restTemplate.getForObject("http://acopio-service/acopio/"+proveedorId,List.class);
-        return datosAcopio;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<List<AcopioModel>> response = restTemplate.exchange("http://acopio-service/acopio/" + proveedorId, HttpMethod.GET, entity, new ParameterizedTypeReference<List<AcopioModel>>() {});
+
+        List<AcopioModel> acopio = response.getBody();
+        return acopio;
     }
 
     public List<LecheModel> consultaLeche(String proveedorId){
-        List<LecheModel> datosLeche = restTemplate.getForObject("http://leche-service/leche/"+proveedorId,List.class);
-        return datosLeche;
+        /*List<LecheModel> datosLeche = restTemplate.getForObject("http://leche-service/leche/"+proveedorId,List.class);
+        System.out.println("leche ok");
+        return datosLeche;*/
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<List<LecheModel>> response = restTemplate.exchange("http://leche-service/leche/"+proveedorId, HttpMethod.GET, entity, new ParameterizedTypeReference<List<LecheModel>>() {});
+
+        List<LecheModel> leche = response.getBody();
+        return leche;
+
     }
 
     public List<Float> calculoAcopio(String proveedorId){
         List<AcopioModel> acopio = consultaAcopio(proveedorId);
         Float kilos = 0.0f;
         Float bonus = 0.0f;
-        Float varKilos;
+        Float varKilos = 0.0f;
         List<Float> lecheYbonus = new ArrayList<>();
         List<String> turnos = new ArrayList<>();
+        /*for (AcopioModel elemento : acopio){
 
-        for (AcopioModel elemento : acopio){
             kilos += elemento.getKgLeche();
 
             if(!turnos.contains(elemento.getTurno())){
                 turnos.add(elemento.getTurno());
             }
+        }*/
+
+        for(int i = 0; i<acopio.size();i++){
+            kilos += acopio.get(i).getKgLeche();
+
+            if(!turnos.contains(acopio.get(i).getTurno())){
+                turnos.add(acopio.get(i).getTurno());
+            }
         }
-
-        varKilos = (acopio.get(0).getKgLeche() - acopio.get(acopio.size()-1).getKgLeche())/acopio.get(0).getKgLeche();
-
+        if (acopio.size()>1)
+            varKilos = (acopio.get(0).getKgLeche() - acopio.get(acopio.size()-1).getKgLeche())/acopio.get(0).getKgLeche();
 
         for(String turno: turnos){
             if(turno=="M"){
@@ -245,8 +289,22 @@ public class PagoService {
         pago.setRetencion(retencion);
         pago.setPagoFinal(pagoTotal);
 
+        pagoRepository.save(pago);
         return pago;
     }
 
+    public List<PagoEntity> calculoPlanilla(){
 
+
+        List<String> proveedoresId = listaProveedorId();
+
+        for(String proveedorId : proveedoresId){
+            calculoPago(proveedorId);
+        }
+
+        return (List<PagoEntity>) pagoRepository.findAll();
+    }
+    public void vaciarDB(){
+        pagoRepository.deleteAll();
+    }
 }

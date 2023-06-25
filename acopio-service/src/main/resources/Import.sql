@@ -1,0 +1,10 @@
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-13', 446, '35682', 'T');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-15', 718, '95620', 'T');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-16', 680, '36633', 'T');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-04', 742, '32204', 'M');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-25', 114, '18816', 'M');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-27', 512, '22744', 'M');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-17', 228, '16880', 'M');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-14', 687, '28039', 'T');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-29', 158, '55481', 'T');
+insert into acopio_entity (fecha, kg_leche, proveedor_id, turno) values ('2023-06-20', 714, '13795', 'T');
