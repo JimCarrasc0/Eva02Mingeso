@@ -1,29 +1,22 @@
+import logo from './logo.svg';
 import './App.css';
-import './styles.css';
-
-
-
-function MainMenu(){
-  return (
-    <div className='button-container'>
-      <button className='btn btn-primary'>Ingresar proveedor</button>
-      <button className='btn btn-primary'>Ver Proveedores</button>
-      <button className='btn btn-primary'>Ingresar archivo acopio</button>
-      <button className='btn btn-primary'>Ver Acopio</button>
-      <button className='btn btn-primary'>Ingresar archivo grasa</button>
-      <button className='btn btn-primary'>Ver Grasa</button>
-      <button className='btn btn-primary'>Gestionar pago</button>
-    </div>
-  );
-}
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>MilkStgo</h1>
-        <p>Plataforma de gestión de provedores de lácteos</p>
-        <MainMenu/>
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
       </header>
     </div>
   );
