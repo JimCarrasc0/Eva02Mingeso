@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import axios from 'axios';
 
 function MainMenu(){
   const [showForm, setShowForm] = useState(false);
@@ -26,21 +27,26 @@ function MainMenu(){
 
   return(
     <div>
-    {!showForm && !showProv && !showArchAcopio &&(
-        <div className='button-container'>
-          <button className='btn btn-primary' onClick={mostrarIngresarProveedor}>Ingresar proveedor</button>
-          <button className='btn btn-primary' onClick={mostrarProveedores}>Ver Proveedores</button>
-          <button className='btn btn-primary' onClick={mostrarArchAcopio}>Ingresar archivo acopio</button>
-          <button className='btn btn-primary'>Ver Acopio</button>
-          <button className='btn btn-primary'>Ingresar archivo grasa</button>
-          <button className='btn btn-primary'>Ver Grasa</button>
-          <button className='btn btn-primary'>Gestionar pago</button>
-        </div>
-      )}
-    
-    {showForm && <IngresarProveedorForm setShowForm={setShowForm} />}
-    {showProv && <MostrarListado setShowProv={setShowProv} />}
-    {showArchAcopio && <IngresarArchivoAcopio setShowArchAcopio={setShowArchAcopio}/>}
+      
+      {!showForm && !showProv && !showArchAcopio &&(
+          <div>
+            <h1 className='title-bold'>MilkStgo</h1>
+            <p className='p-thin'>Plataforma de gestión de proveedores de lácteos.</p>
+            <div className='button-container'>
+              <button className='btn btn-primary' onClick={mostrarIngresarProveedor}>Ingresar proveedor</button>
+              <button className='btn btn-primary' onClick={mostrarProveedores}>Ver Proveedores</button>
+              <button className='btn btn-primary' onClick={mostrarArchAcopio}>Ingresar archivo acopio</button>
+              <button className='btn btn-primary'>Ver Acopio</button>
+              <button className='btn btn-primary'>Ingresar archivo grasa</button>
+              <button className='btn btn-primary'>Ver Grasa</button>
+              <button className='btn btn-primary'>Gestionar pago</button>
+            </div>
+          </div>
+        )}
+      
+      {showForm && <IngresarProveedorForm setShowForm={setShowForm} />}
+      {showProv && <MostrarListado setShowProv={setShowProv} />}
+      {showArchAcopio && <IngresarArchivoAcopio setShowArchAcopio={setShowArchAcopio}/>}
     </div>
   );
 }
@@ -121,39 +127,47 @@ function MostrarListado({ setShowProv }) {
   const [proveedores, setProveedores] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/proveedores')
-      .then((response) => response.json())
-      .then((data) => setProveedores(data))
-      .catch((error) => console.error(error));
+    axios.get('http://localhost:8080/proveedor')
+      .then((response) => {
+        setProveedores(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
-  const volver =() =>{
+  const volver = () => {
     setShowProv(false);
   };
 
   return (
     <div>
       <h2>Listado de Proveedores</h2>
-      <ul>
-        {proveedores.map((proveedor) => (
-          <li key={proveedor.proveedorId}>
-            <strong>Proveedor ID:</strong> {proveedor.proveedorId}
-            <br />
-            <strong>Nombre:</strong> {proveedor.nombre}
-            <br />
-            <strong>Categoría:</strong> {proveedor.categoria}
-            <br />
-            <strong>Retención:</strong> {proveedor.retencion}
-          </li>
-        ))}
-      </ul>
-    
+      <table>
+        <thead>
+          <tr>
+            <th>Proveedor ID</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Retención</th>
+          </tr>
+        </thead>
+        <tbody>
+          {proveedores.map((proveedor) => (
+            <tr key={proveedor.proveedorId}>
+              <td>{proveedor.proveedorId}</td>
+              <td>{proveedor.nombre}</td>
+              <td>{proveedor.categoria}</td>
+              <td>{proveedor.retencion}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <div className='button-container'>
         <button className='btn btn-danger' onClick={volver}>Volver</button>
       </div>
-    
     </div>
-    
   );
 }
 
@@ -214,8 +228,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className='title-bold'>MilkStgo</h1>
-        <p className='p-thin'>Plataforma de gestión de proveedores de lácteos.</p>
         <MainMenu/>
       </header>
     </div>
