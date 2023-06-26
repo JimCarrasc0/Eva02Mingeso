@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #2A2F2F;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,6 +22,13 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.title-bold{
+  font-weight: bold;
+}
+.p-thin{
+  font-weight: lighter;
+  font-style: italic;
 }
 
 .App-link {
@@ -35,4 +42,22 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.button-container {
+	margin-top: 20px;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 5px;
+	
+}
+
+.btn-orange {
+  background-color: #EE632E;
+}
+
+.form-container{
+  display: flex;
+	flex-direction: column;
+	align-items: center;  
 }
