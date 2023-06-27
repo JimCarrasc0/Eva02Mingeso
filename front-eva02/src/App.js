@@ -6,21 +6,60 @@ function MainMenu(){
   const [showForm, setShowForm] = useState(false);
   const [showProv, setShowProv] = useState(false);
   const [showArchAcopio, setShowArchAcopio] = useState(false);
+  const [showAco, setShowAco] = useState(false);
+  const [showMilk, setShowMilk] = useState(false);
+  const [showPay, setShowPay] = useState(false);
 
   const mostrarIngresarProveedor = () => {
     setShowForm(true);
     setShowProv(false);
     setShowArchAcopio(false);
+    setShowAco(false);
+    setShowMilk(false);
+    setShowPay(false);
   };
 
   const mostrarProveedores = () => {
     setShowProv(true);
     setShowForm(false);
     setShowArchAcopio(false);
+    setShowAco(false);
+    setShowMilk(false);
+    setShowPay(false);
   }
 
   const mostrarArchAcopio = () =>{
     setShowArchAcopio(true);
+    setShowForm(false);
+    setShowProv(false);
+    setShowAco(false);
+    setShowMilk(false);
+    setShowPay(false);
+  }
+
+  const mostrarAco = () => {
+    setShowAco(true);
+    setShowArchAcopio(false);
+    setShowForm(false);
+    setShowProv(false);
+    setShowMilk(false);
+    setShowPay(false);
+  }
+
+  const mostrarMilk = () => {
+    setShowMilk(true);
+    setShowAco(false);
+    setShowArchAcopio(false);
+    setShowForm(false);
+    setShowProv(false);
+    setShowPay(false);
+  }
+
+  const mostrarPago = () => {
+    setShowPay(true);
+    setShowMilk(false);
+    setShowAco(false);
+    setShowArchAcopio(false);
     setShowForm(false);
     setShowProv(false);
   }
@@ -28,7 +67,7 @@ function MainMenu(){
   return(
     <div>
       
-      {!showForm && !showProv && !showArchAcopio &&(
+      {!showForm && !showProv && !showArchAcopio && !showAco && !showMilk && !showPay &&(
           <div>
             <h1 className='title-bold'>MilkStgo</h1>
             <p className='p-thin'>Plataforma de gestión de proveedores de lácteos.</p>
@@ -36,17 +75,21 @@ function MainMenu(){
               <button className='btn btn-primary' onClick={mostrarIngresarProveedor}>Ingresar proveedor</button>
               <button className='btn btn-primary' onClick={mostrarProveedores}>Ver Proveedores</button>
               <button className='btn btn-primary' onClick={mostrarArchAcopio}>Ingresar archivo acopio</button>
-              <button className='btn btn-primary'>Ver Acopio</button>
-              <button className='btn btn-primary'>Ingresar archivo grasa</button>
-              <button className='btn btn-primary'>Ver Grasa</button>
-              <button className='btn btn-primary'>Gestionar pago</button>
+              <button className='btn btn-primary' onClick={mostrarAco}>Ver Acopio</button>
+              <button className='btn btn-primary' >Ingresar archivo grasa</button>
+              <button className='btn btn-primary' onClick={mostrarMilk}>Ver Grasa</button>
+              <button className='btn btn-primary' onClick={mostrarPago}>Gestionar pago</button>
             </div>
           </div>
         )}
       
       {showForm && <IngresarProveedorForm setShowForm={setShowForm} />}
       {showProv && <MostrarListado setShowProv={setShowProv} />}
-      {showArchAcopio && <IngresarArchivoAcopio setShowArchAcopio={setShowArchAcopio}/>}
+      {showArchAcopio && <IngresarArchivoAcopio setShowArchAcopio={setShowArchAcopio} />}
+      {showAco && <MostrarAcopio setShowAco={setShowAco} />}
+      {showMilk && <MostrarLeche setShowMilk={setShowMilk} />}
+      {showPay && <MostrarPago setShowPay={setShowPay} />}
+
     </div>
   );
 }
@@ -143,7 +186,7 @@ function MostrarListado({ setShowProv }) {
   return (
     <div>
       <h2>Listado de Proveedores</h2>
-      <table>
+      <table className='table table-sm table-dark'>
         <thead>
           <tr>
             <th>Proveedor ID</th>
@@ -169,6 +212,171 @@ function MostrarListado({ setShowProv }) {
       </div>
     </div>
   );
+}
+
+function MostrarAcopio({ setShowAco }){
+  const [acopio, setAcopio] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/acopio')
+      .then((response) => {
+        setAcopio(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const volver = () => {
+    setShowAco(false);
+  }
+
+  return (
+    <div>
+      <h2>Información acopio de proveedores</h2>
+      <table className='table table-sm table-dark'>
+        <thead>
+          <tr>
+            <th>Proveedor ID</th>
+            <th>Fecha</th>
+            <th>Turno</th>
+            <th>Kilos de Leche</th>
+          </tr>
+        </thead>
+        <tbody>
+          {acopio.map((acopio) => (
+            <tr key={acopio.id}>
+              <td>{acopio.proveedorId}</td>
+              <td>{acopio.fecha}</td>
+              <td>{acopio.turno}</td>
+              <td>{acopio.kgLeche}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className='button-container'>
+        <button className='btn btn-danger' onClick={volver}>Volver</button>
+      </div>
+
+    </div>
+  );
+
+}
+
+function MostrarLeche({ setShowMilk }){
+  const [leche, setLeche] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/leche')
+      .then((response) => {
+        setLeche(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const volver = () => {
+    setShowMilk(false);
+  };
+
+  return (
+    <div>
+      <h2>Detalle de la leche por proveedor</h2>
+      <table className='table table-sm table-dark'>
+        <thead>
+          <tr>
+            <th>Proveedor ID</th>
+            <th>% Grasa</th>
+            <th>% Sólido</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leche.map((leche) => (
+            <tr key = {leche.id}>
+              <td>{leche.proveedorId}</td>
+              <td>{leche.grasa}</td>
+              <td>{leche.solido}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className='button-container'>
+        <button className='btn btn-danger' onClick={volver}>Volver</button>
+      </div>
+
+    </div>
+  )
+}
+
+function MostrarPago({ setShowPay }){
+  const [payment, setPayment] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/pago')
+      .then((response) => {
+        setPayment(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  const volver = () => {
+    setShowPay(false);
+  }
+
+  return (
+    <div>
+      <h2>Planilla de pagos</h2>
+      <table className='table table-sm table-dark'>
+        <thead>
+          <tr>
+            <th>proveedorId</th>
+            <th>nombre</th>
+            <th>kilos</th>
+            <th>pagoLeche</th>
+            <th>pagoGrasa</th>
+            <th>pagoSolido</th>
+            <th>freqBonus</th>
+            <th>descLeche</th>
+            <th>descGrasa</th>
+            <th>descSolido</th>
+            <th>pagoTotal</th>
+            <th>retencion</th>
+            <th>pagoFinal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {payment.map((payment) => (
+            <tr key={payment.id}>
+              <td>{payment.proveedorId}</td>
+              <td>{payment.nombre}</td>
+              <td>{payment.kilos}</td>
+              <td>{payment.pagoLeche}</td>
+              <td>{payment.pagoGrasa}</td>
+              <td>{payment.pagoSolido}</td>
+              <td>{payment.freqBonus}</td>
+              <td>{payment.descLeche}</td>
+              <td>{payment.descGrasa}</td>
+              <td>{payment.descSolido}</td>
+              <td>{payment.pagoTotal}</td>
+              <td>{payment.retencion}</td>
+              <td>{payment.pagoFinal}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className='button-container'>
+        <button className='btn btn-danger' onClick={volver}>Volver</button>
+      </div>
+
+    </div>
+  );
+
 }
 
 function IngresarArchivoAcopio({setShowArchAcopio}) {
