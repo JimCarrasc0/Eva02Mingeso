@@ -6,6 +6,7 @@ function MainMenu(){
   const [showForm, setShowForm] = useState(false);
   const [showProv, setShowProv] = useState(false);
   const [showArchAcopio, setShowArchAcopio] = useState(false);
+  const [showArchGrasa, setShowArchGrasa] = useState(false);
   const [showAco, setShowAco] = useState(false);
   const [showMilk, setShowMilk] = useState(false);
   const [showPay, setShowPay] = useState(false);
@@ -14,6 +15,7 @@ function MainMenu(){
     setShowForm(true);
     setShowProv(false);
     setShowArchAcopio(false);
+    setShowArchGrasa(false);
     setShowAco(false);
     setShowMilk(false);
     setShowPay(false);
@@ -23,13 +25,25 @@ function MainMenu(){
     setShowProv(true);
     setShowForm(false);
     setShowArchAcopio(false);
+    setShowArchGrasa(false);
     setShowAco(false);
     setShowMilk(false);
     setShowPay(false);
   }
 
-  const mostrarArchAcopio = () =>{
+  const mostrarArchAcopio = () => {
     setShowArchAcopio(true);
+    setShowArchGrasa(false);
+    setShowForm(false);
+    setShowProv(false);
+    setShowAco(false);
+    setShowMilk(false);
+    setShowPay(false);
+  }
+
+  const mostrarArchGrasa = () => {
+    setShowArchGrasa(true);
+    setShowArchAcopio(false);
     setShowForm(false);
     setShowProv(false);
     setShowAco(false);
@@ -40,6 +54,7 @@ function MainMenu(){
   const mostrarAco = () => {
     setShowAco(true);
     setShowArchAcopio(false);
+    setShowArchGrasa(false);
     setShowForm(false);
     setShowProv(false);
     setShowMilk(false);
@@ -50,6 +65,7 @@ function MainMenu(){
     setShowMilk(true);
     setShowAco(false);
     setShowArchAcopio(false);
+    setShowArchGrasa(false);
     setShowForm(false);
     setShowProv(false);
     setShowPay(false);
@@ -60,6 +76,7 @@ function MainMenu(){
     setShowMilk(false);
     setShowAco(false);
     setShowArchAcopio(false);
+    setShowArchGrasa(false);
     setShowForm(false);
     setShowProv(false);
   }
@@ -67,7 +84,7 @@ function MainMenu(){
   return(
     <div>
       
-      {!showForm && !showProv && !showArchAcopio && !showAco && !showMilk && !showPay &&(
+      {!showForm && !showProv && !showArchAcopio && !showAco && !showMilk && !showPay && !showArchGrasa && (
           <div>
             <h1 className='title-bold'>MilkStgo</h1>
             <p className='p-thin'>Plataforma de gestión de proveedores de lácteos.</p>
@@ -76,7 +93,7 @@ function MainMenu(){
               <button className='btn btn-primary' onClick={mostrarProveedores}>Ver Proveedores</button>
               <button className='btn btn-primary' onClick={mostrarArchAcopio}>Ingresar archivo acopio</button>
               <button className='btn btn-primary' onClick={mostrarAco}>Ver Acopio</button>
-              <button className='btn btn-primary' >Ingresar archivo grasa</button>
+              <button className='btn btn-primary' onClick={mostrarArchGrasa}>Ingresar archivo grasa</button>
               <button className='btn btn-primary' onClick={mostrarMilk}>Ver Grasa</button>
               <button className='btn btn-primary' onClick={mostrarPago}>Gestionar pago</button>
             </div>
@@ -86,6 +103,7 @@ function MainMenu(){
       {showForm && <IngresarProveedorForm setShowForm={setShowForm} />}
       {showProv && <MostrarListado setShowProv={setShowProv} />}
       {showArchAcopio && <IngresarArchivoAcopio setShowArchAcopio={setShowArchAcopio} />}
+      {showArchGrasa && <IngresarArchivoGrasa setShowArchGrasa={setShowArchGrasa} />}
       {showAco && <MostrarAcopio setShowAco={setShowAco} />}
       {showMilk && <MostrarLeche setShowMilk={setShowMilk} />}
       {showPay && <MostrarPago setShowPay={setShowPay} />}
@@ -102,11 +120,30 @@ function IngresarProveedorForm({ setShowForm }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes realizar alguna acción con los datos ingresados, como enviarlos a través de una API
-    console.log('Proveedor ID:', proveedorId);
-    console.log('Nombre:', nombre);
-    console.log('Categoría:', categoria);
-    console.log('Retención:', retencion);
+
+    // Crear un objeto con los datos del proveedor
+    const proveedor = {
+      proveedorId,
+      nombre,
+      categoria,
+      retencion
+    };
+
+    // Enviar la solicitud POST a través de axios
+    axios.post('http://localhost:8080/proveedor/nuevo', proveedor)
+      .then((response) => {
+        console.log('Proveedor guardado:', response.data);
+        // Luego de guardar el proveedor, puedes limpiar los campos del formulario
+        setProveedorId('');
+        setNombre('');
+        setCategoria('');
+        setRetencion('');
+        // Opcional: Mostrar un mensaje de éxito o redirigir a otra página
+      })
+      .catch((error) => {
+        console.error('Error al guardar el proveedor:', error);
+        // Opcional: Mostrar un mensaje de error
+      });
 
     // Luego de realizar la acción, puedes limpiar los campos del formulario
     setProveedorId('');
@@ -121,47 +158,114 @@ function IngresarProveedorForm({ setShowForm }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='form-container'>
-        <label htmlFor="proveedorId">Proveedor ID:</label>
+      <div className='form-group'>
+        <label htmlFor="proveedorId">ID Proveedor:</label>
         <input
           type="text"
+          class="form-control"
           id="proveedorId"
+          placeholder='ID del Proveedor'
           value={proveedorId}
           onChange={(e) => setProveedorId(e.target.value)}
         />
       </div>
-      <div className='form-container'>
+      <br/>
+      <div className='form-group'>
         <label htmlFor="nombre">Nombre:</label>
         <input
           type="text"
+          class="form-control"
           id="nombre"
+          placeholder='Nombre del Proveedor'
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
         />
       </div>
-      <div className='form-container'>
+      <br/>
+      <div class="form-container">
         <label htmlFor="categoria">Categoría:</label>
-        <input
-          type="text"
-          id="categoria"
-          value={categoria}
-          onChange={(e) => setCategoria(e.target.value)}
-        />
+        <div class="form-check form-check-inline">
+          <label>
+            <input
+              type="radio"
+              name="categoria"
+              value="A"
+              checked={categoria === "A"}
+              onChange={(e) => setCategoria(e.target.value)}
+            />
+            A
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label>
+            <input
+              type="radio"
+              name="categoria"
+              value="B"
+              checked={categoria === "B"}
+              onChange={(e) => setCategoria(e.target.value)}
+            />
+            B
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label>
+            <input
+              type="radio"
+              name="categoria"
+              value="C"
+              checked={categoria === "C"}
+              onChange={(e) => setCategoria(e.target.value)}
+            />
+            C
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label>
+            <input
+              type="radio"
+              name="categoria"
+              value="D"
+              checked={categoria === "D"}
+              onChange={(e) => setCategoria(e.target.value)}
+            />
+            D
+          </label>
+        </div>
       </div>
-      <div className='form-container'>
+      <br/>
+      <div class="form-container">
         <label htmlFor="retencion">Retención:</label>
-        <input
-          type="text"
-          id="retencion"
-          value={retencion}
-          onChange={(e) => setRetencion(e.target.value)}
-        />
+        <div class="form-check form-check-inline">
+          <label>
+            <input
+              type="radio"
+              name="retencion"
+              value="Si"
+              checked={retencion === "Si"}
+              onChange={(e) => setRetencion(e.target.value)}
+            />
+            Si
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <label>
+            <input
+              type="radio"
+              name="retencion"
+              value="No"
+              checked={retencion === "No"}
+              onChange={(e) => setRetencion(e.target.value)}
+            />
+            No
+          </label>
+        </div>
       </div>
+      
       <div className='button-container'>
         <button className='btn btn-success' type="submit">Guardar</button>
         <button className='btn btn-danger' onClick={volver}>Volver</button>
       </div>
-      
     </form>
   );
 }
@@ -331,22 +435,22 @@ function MostrarPago({ setShowPay }){
   return (
     <div>
       <h2>Planilla de pagos</h2>
-      <table className='table table-sm table-dark'>
+      <table className='table table-sm table-dark table-responsive'>
         <thead>
           <tr>
-            <th>proveedorId</th>
-            <th>nombre</th>
-            <th>kilos</th>
-            <th>pagoLeche</th>
-            <th>pagoGrasa</th>
-            <th>pagoSolido</th>
-            <th>freqBonus</th>
-            <th>descLeche</th>
-            <th>descGrasa</th>
-            <th>descSolido</th>
-            <th>pagoTotal</th>
-            <th>retencion</th>
-            <th>pagoFinal</th>
+            <th>Id <br/> Proveedor</th>
+            <th>Nombre</th>
+            <th>Kilos de <br/> leche</th>
+            <th>Pago x <br/> Leche</th>
+            <th>Pago x <br/> Grasa</th>
+            <th>Pago x <br/> Solido</th>
+            <th>Bonus de <br/> Frecuencia</th>
+            <th>Descuento <br/> %variación Leche</th>
+            <th>Descuento <br/> %variación Grasa</th>
+            <th>Descuento <br/> %variación Solido</th>
+            <th>Pago Total</th>
+            <th>Retencion <br/> (13%)</th>
+            <th>Pago Final</th>
           </tr>
         </thead>
         <tbody>
@@ -370,8 +474,8 @@ function MostrarPago({ setShowPay }){
         </tbody>
       </table>
 
-      <div className='button-container'>
-        <button className='btn btn-danger' onClick={volver}>Volver</button>
+      <div>
+        <button className='btn btn-danger btn-block' onClick={volver}>Volver</button>
       </div>
 
     </div>
@@ -379,29 +483,41 @@ function MostrarPago({ setShowPay }){
 
 }
 
-function IngresarArchivoAcopio({setShowArchAcopio}) {
+function IngresarArchivoAcopio({ setShowArchAcopio }) {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
+
   const volver = () => {
     setShowArchAcopio(false);
-  }
+  };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Aquí puedes realizar alguna acción con el archivo seleccionado, como enviarlo a través de una API
     if (selectedFile) {
-      console.log('Archivo seleccionado:', selectedFile);
-      // Realizar acciones con el archivo, como enviarlo a través de una API
+      try {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        // Enviar el archivo al backend utilizando Axios
+        const response = await axios.post('http://localhost:8080/acopio/nuevo', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        console.log('Respuesta del backend:', response.data);
+      } catch (error) {
+        console.error('Error al enviar el archivo:', error);
+      }
     } else {
       console.log('Ningún archivo seleccionado');
     }
 
-    // Luego de realizar la acción, puedes reiniciar el estado para permitir la selección de un nuevo archivo
     setSelectedFile(null);
   };
 
@@ -412,13 +528,65 @@ function IngresarArchivoAcopio({setShowArchAcopio}) {
         <div>
           <input type="file" onChange={handleFileChange} />
         </div>
+        <div className='button-container'>
+          <button className='btn btn-success' type="submit">Enviar</button>
+          <button className='btn btn-danger' onClick={volver}>Volver</button>
+        </div>
       </form>
+    </div>
+  );
+}
 
-      <div className='button-container'>
-        <button className= 'btn btn-success' type="submit">Enviar</button>
-        <button className='btn btn-danger' onClick={volver}>Volver</button>
-      </div>
+function IngresarArchivoGrasa({ setShowArchGrasa }) {
+  const [selectedFile, setSelectedFile] = useState(null);
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const volver = () => {
+    setShowArchGrasa(false);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (selectedFile) {
+      try {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        // Enviar el archivo al backend utilizando Axios
+        const response = await axios.post('http://localhost:8080/leche/nuevo', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        console.log('Respuesta del backend:', response.data);
+      } catch (error) {
+        console.error('Error al enviar el archivo:', error);
+      }
+    } else {
+      console.log('Ningún archivo seleccionado');
+    }
+
+    setSelectedFile(null);
+  };
+
+  return (
+    <div>
+      <h2>Ingresar Archivo de grasa</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input type="file" onChange={handleFileChange} />
+        </div>
+        <div className='button-container'>
+          <button className='btn btn-success' type="submit">Enviar</button>
+          <button className='btn btn-danger' onClick={volver}>Volver</button>
+        </div>
+      </form>
     </div>
   );
 }
@@ -434,11 +602,9 @@ function IngresarArchivoAcopio({setShowArchAcopio}) {
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <MainMenu/>
-      </header>
-    </div>
+    <body>
+      <MainMenu/>
+    </body>
     /*<div className='App'>
       
       <MainMenu/>

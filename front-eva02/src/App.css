@@ -54,6 +54,81 @@
 
 .form-container{
   display: flex;
-	flex-direction: column;
-	align-items: center;  
+	
+	align-items: left;  
 }
+
+.btn-primary{
+  background-color: #EE632E;
+  border-color: #EE632E;
+}
+
+.btn-primary:hover{
+  background-color: #b14b23;
+  border-color: #b14b23;
+}
+
+.btn-danger{
+  background-color: #EB2325;
+  border-color: #EB2325;
+}
+
+.btn-danger:hover{
+  background-color: #971719;
+  border-color: #971719;
+}
+
+.btn-success{
+  background-color: #598041;
+  border-color: #598041;
+}
+
+.btn-success:hover{
+  background-color: #364d28;
+  border-color: #364d28;
+}
+
+html, body {
+  height: 100%;
+}
+
+html {
+  display: table;
+  margin: auto;
+  
+}
+
+body {
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  background-color: #2A2F2F;
+  color: #FFFFFF;
+  margin-left: 250px;
+  margin-right: 250px;
+}
+
+.table{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background: #734F9A;
+	padding: 2px;
+	border-radius: 7px;
+	overflow-y: auto;
+	max-height: 300px;
+}
+
+
+.form-group{
+  text-align: left;
+}
+
+.form-check-inline{
+  text-align: left;
+}
+
+.form-check{
+  text-align: left;
+}
+
+@import 'bootstrap/dist/css/bootstrap.css';

@@ -152,13 +152,14 @@ public class PagoService {
 
     public int precioCategoria(String categoria){
         int precioCat;
-        if(categoria=="A"){
+        System.out.println(categoria);
+        if(categoria.equals("A")){
             precioCat = 700;
-        } else if (categoria=="B") {
+        } else if (categoria.equals("B")) {
             precioCat = 550;
-        } else if (categoria=="C") {
+        } else if (categoria.equals("C")) {
             precioCat = 400;
-        } else if (categoria=="D") {
+        } else if (categoria.equals("D")) {
             precioCat = 250;
         } else {
             precioCat = 0;
@@ -250,6 +251,7 @@ public class PagoService {
         pago.setNombre(proveedor.getNombre());
 
         int precioCat = precioCategoria(proveedor.getCategoria());
+        System.out.println(precioCat);
 
         Float retencion = 0.0f;
         if (proveedor.getRetencion() == "Si") {
