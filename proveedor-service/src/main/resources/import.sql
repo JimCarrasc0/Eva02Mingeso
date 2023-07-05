@@ -7,4 +7,3 @@ insert into proveedor_entity (proveedor_id, nombre, categoria, retencion) values
 insert into proveedor_entity (proveedor_id, nombre, categoria, retencion) values ('16880', 'Lemke Group', 'C', 'No');
 insert into proveedor_entity (proveedor_id, nombre, categoria, retencion) values ('28039', 'Durgan-Murazik', 'A', 'Si');
 insert into proveedor_entity (proveedor_id, nombre, categoria, retencion) values ('55481', 'Wiegand-Kihn', 'D', 'No');
-insert into proveedor_entity (proveedor_id, nombre, categoria, retencion) values ('13795', 'Littel, Moore and Hammes', 'D', 'Si');

@@ -4,9 +4,13 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Eva02Mingeso-.iml" filepath="$PROJECT_DIR$/.idea/Eva02Mingeso-.iml" />
       <module fileurl="file://$PROJECT_DIR$/acopio-service/acopio-service.iml" filepath="$PROJECT_DIR$/acopio-service/acopio-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-service/config-service.iml" filepath="$PROJECT_DIR$/config-service/config-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-service/eureka-service.iml" filepath="$PROJECT_DIR$/eureka-service/eureka-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway-service/gateway-service.iml" filepath="$PROJECT_DIR$/gateway-service/gateway-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/leche-service/leche-service.iml" filepath="$PROJECT_DIR$/leche-service/leche-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/pago-service/pago-service.iml" filepath="$PROJECT_DIR$/pago-service/pago-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/proveedor-service/proveedor-service.iml" filepath="$PROJECT_DIR$/proveedor-service/proveedor-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/leche-service/proveedor-service.iml" filepath="$PROJECT_DIR$/leche-service/proveedor-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proveedor-service/proveedor-service (1).iml" filepath="$PROJECT_DIR$/proveedor-service/proveedor-service (1).iml" />
     </modules>
   </component>
 </project>
