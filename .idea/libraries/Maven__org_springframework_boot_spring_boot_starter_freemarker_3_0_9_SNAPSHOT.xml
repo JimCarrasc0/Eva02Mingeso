@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Maven: org.springframework.boot:spring-boot-starter-freemarker:3.0.9-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-freemarker/3.0.9-SNAPSHOT/spring-boot-starter-freemarker-3.0.9-20230704.120735-28.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-freemarker/3.0.9-SNAPSHOT/spring-boot-starter-freemarker-3.0.9-20230719.141016-52.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-freemarker/3.0.9-SNAPSHOT/spring-boot-starter-freemarker-3.0.9-20230704.120735-28-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-freemarker/3.0.9-SNAPSHOT/spring-boot-starter-freemarker-3.0.9-20230719.141016-52-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-freemarker/3.0.9-SNAPSHOT/spring-boot-starter-freemarker-3.0.9-20230704.120735-28-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-freemarker/3.0.9-SNAPSHOT/spring-boot-starter-freemarker-3.0.9-20230719.141016-52-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
